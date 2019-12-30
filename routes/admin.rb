@@ -23,10 +23,19 @@ get '/admin/entries' do
   index.filter(tags: [tag]) unless tag.nil?
 
   index.sort(updated_at: :desc)
-  page = @params['page']&.to_i || 1
+
+  limit = 100
+  item_count = index.count
+  page = params['page']&.to_i || 1
+  offset = limit * (page - 1)
+
+  index.limit(limit, offset)
+
   slim admin_view_name('entries'), layout: admin_view_name('layout'), locals: {
     items: index,
-    page: page
+    page: page,
+    item_count: item_count,
+    limit: limit
   }
 end
 

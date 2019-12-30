@@ -10,6 +10,8 @@
     a href="/admin/entries?published=false"
       = t('admin.unpublished_only')
 
+  == slim admin_view_name("components/paginator"), locals: { item_count: item_count, limit: limit, page: page }
+
   table
     thead
       th
@@ -43,6 +45,8 @@
               = t('edit')
             a.button href="/admin/entries/#{item.entry_id}/delete"
               = t('delete')
+
+  == slim admin_view_name("components/paginator"), locals: { item_count: item_count, limit: limit, page: page }
 
 sass:
   .tags
