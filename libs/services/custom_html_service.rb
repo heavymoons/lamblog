@@ -30,10 +30,9 @@ module CustomHtmlService
   end
 
   def load(name, default = nil)
-    @custom_htmls ||= {}
-    @custom_htmls[name] ||= S3Service.load(s3_key(name))
+    S3Service.load(s3_key(name))
   rescue StandardError
-    @custom_htmls[name] ||= default
+    default
   end
 
   def save(name, html)

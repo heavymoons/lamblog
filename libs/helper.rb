@@ -33,9 +33,10 @@ def markdown(markdown_text)
 end
 
 def custom_html(name)
-  CustomHtmlService.load(name)
+  @custom_html_cache ||= {}
+  @custom_html_cache[name] ||= CustomHtmlService.load(name)
 rescue StandardError
-  nil
+  @custom_html_cache[name] ||= ''
 end
 
 def setting(name, default = nil)
