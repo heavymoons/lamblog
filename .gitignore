@@ -7,3 +7,5 @@ vendor
 *.zip
 custom_html
 data
+static/*
+!README.md
