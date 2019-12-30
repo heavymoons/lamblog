@@ -1,4 +1,4 @@
-== slim view_name("components/custom_html"), locals: { name: 'entry_top' }
 .content
+  == slim view_name("components/custom_html"), locals: { name: 'entry_top' }
   == slim view_name('components/entry'), locals: { entry: entry }
-== slim view_name("components/custom_html"), locals: { name: 'entry_bottom' }
+  == slim view_name("components/custom_html"), locals: { name: 'entry_bottom' }
