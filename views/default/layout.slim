@@ -11,8 +11,10 @@ body
   .container.is-fluid
     #header
       == slim view_name("header")
+    == slim view_name("components/custom_html"), locals: { name: 'content_top' }
     #content
       == yield
+    == slim view_name("components/custom_html"), locals: { name: 'content_bottom' }
     #footer
       == slim view_name("footer")
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../libs/services/index_service'
+require_relative '../libs/services/custom_html_service'
 
 before '/admin/*' do
   not_found unless session[:login]
@@ -85,6 +86,50 @@ post '/admin/entries/:entry_id' do |entry_id|
   entry.save
   redirect "/admin/entries/#{entry_id}"
 end
+
+get '/admin/custom_htmls' do
+  custom_htmls = CustomHtmlService.list
+  default_names = CustomHtmlService::HTML_NAMES
+
+  slim admin_view_name('custom_htmls'), layout: admin_view_name('layout'), locals: {
+    custom_htmls: custom_htmls,
+    default_names: default_names
+  }
+end
+
+get '/admin/custom_htmls/:name/delete' do |name|
+  html = CustomHtmlService.load(name)
+
+  slim admin_view_name('delete_custom_html'), layout: admin_view_name('layout'), locals: {
+    name: name,
+    html: html
+  }
+end
+
+post '/admin/custom_htmls/:name/delete' do |name|
+  raise 'csrf check error' unless check_csrf_token
+
+  CustomHtmlService.delete(name)
+  redirect("/admin/custom_htmls")
+end
+
+get '/admin/custom_htmls/:name' do |name|
+  html = CustomHtmlService.load(name)
+
+  slim admin_view_name('edit_custom_html'), layout: admin_view_name('layout'), locals: {
+    name: name,
+    html: html
+  }
+end
+
+post '/admin/custom_htmls/:name' do |name|
+  raise 'csrf check error' unless check_csrf_token
+
+  html = params['html']
+  CustomHtmlService.save(name, html)
+  redirect("/admin/custom_htmls/#{name}")
+end
+
 
 get '/admin/files' do
 end

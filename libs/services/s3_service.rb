@@ -20,7 +20,7 @@ module S3Service
       s3_result = client.list_objects_v2(params)
       list += s3_result[:contents].map do |content|
         content[:key].slice(key.size, content[:key].size)
-      end
+      end.reject { |name| name.size == 0 }
       token = s3_result[:next_continuation_token]
       break if token.nil?
     end

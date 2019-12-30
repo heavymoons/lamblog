@@ -1,0 +1,31 @@
+.content
+  h2
+    = t('custom_htmls')
+
+  table
+    thead
+      th
+        = t('custom_html.html_id')
+      th
+        = t('custom_html.html')
+      th
+        = t('control')
+    tbody
+      - default_names.each do |name|
+        tr
+          td
+            = name
+          td
+            - if custom_htmls.include?(name)
+              = "*"
+            - else
+              = "-"
+          th
+            a.button.is-primary href="/admin/custom_htmls/#{name}"
+              = t('edit')
+            a.button href="/admin/custom_htmls/#{name}/delete"
+              = t('delete')
+
+sass:
+  .tags
+    font-size: 0.7rem
