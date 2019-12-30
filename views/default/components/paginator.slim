@@ -1,16 +1,18 @@
-.paginator
-  - max_page = item_count / limit + 1
-  - base_url = ""
-  - start_page = page - 5
-  - finish_page = page + 5
-  - (1..max_page).each do |apage|
-    - if apage == 1 || apage == max_page || (apage >= start_page && apage <= finish_page)
-      span.page.button.is-small.is-light
-        - if apage == page
-          = apage
-        - else
-          a href="#{base_url}?page=#{apage}"
+- max_page = item_count / limit + 1
+- if max_page > 1
+  .paginator
+    - max_page = item_count / limit + 1
+    - base_url = ""
+    - start_page = page - 5
+    - finish_page = page + 5
+    - (1..max_page).each do |apage|
+      - if apage == 1 || apage == max_page || (apage >= start_page && apage <= finish_page)
+        span.page.button.is-small.is-light
+          - if apage == page
             = apage
+          - else
+            a href="#{base_url}?page=#{apage}"
+              = apage
 
 sass:
   .paginator
