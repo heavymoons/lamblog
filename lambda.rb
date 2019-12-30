@@ -38,10 +38,21 @@ def handler(event:, context:)
       body_content += item.to_s
     end
 
+    isBase64Encoded = false
+    contentHandling = 'CONVERT_TO_TEXT'
+
+    unless body_content.valid_encoding?
+      isBase64Encoded = true
+      contentHandling = 'CONVERT_TO_BINARY'
+      body_content = Base64.encode64(body_content)
+    end
+
     response = {
       'statusCode' => status,
       'headers' => headers,
-      'body' => body_content
+      'body' => body_content,
+      'isBase64Encoded' => isBase64Encoded,
+      'contentHandling' => contentHandling
     }
   rescue Exception => e
     response = {
