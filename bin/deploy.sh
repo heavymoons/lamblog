@@ -12,7 +12,7 @@ docker run --rm -v $DIR_NAME:/opt lambci/lambda:build-ruby2.5 sh -c "\
 cd /opt && \
 bundle install --path vendor --without development test && \
 find vendor -type f | grep \"\.o\" | xargs rm -rf && \
-zip -r lambda.zip libs locales routes views .env config.ru lambda.rb vendor \
+zip -r lambda.zip libs locales routes views .env config.ru lambda.rb static vendor \
 "
 
 FUNCTION_NAME=$APP_NAME
