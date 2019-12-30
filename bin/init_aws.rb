@@ -23,12 +23,12 @@ module InitAws
   end
 
   def create_default_entry
+    IndexService.refresh
     entry = EntryService.new_entry
     entry.title = 'First Entry'
     entry.body = 'This is my first entry.'
     entry.publish
     entry.save
-    IndexService.refresh
   end
 
   def create_bucket
