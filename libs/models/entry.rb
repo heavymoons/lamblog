@@ -42,7 +42,7 @@ class Entry
   end
 
   def new_id
-    hashids = Hashids.new(setting('HASHIDS_SALT'))
+    hashids = Hashids.new
     id = hashids.encode(Time.now.strftime('%6N').to_i)
     Time.now.strftime('%Y%m%d') + '-' + id
   end

@@ -30,9 +30,36 @@ get '/admin/entries' do
 end
 
 get '/admin/entries/new' do
+  entry = EntryService.new_entry
+  slim admin_view_name('edit_entry'), layout: admin_view_name('layout'), locals: {
+    entry: entry
+  }
 end
 
-post '/admin/entries/' do
+post '/admin/entries/new' do
+  raise 'csrf check error' unless check_csrf_token
+
+  entry = EntryService.new_entry
+  entry.entry_id = params['entry_id'] unless params['entry_id'].to_s.size == 0
+  entry.body = params['body']
+  entry.title = params['title']
+  entry.tags = params['tags'].split(' ')
+  entry.publish(params['do_publish'])
+  entry.save
+  redirect "/admin/entries/#{entry.entry_id}"
+end
+
+get '/admin/entries/:entry_id/delete' do |entry_id|
+  entry = EntryService.load(entry_id)
+  slim admin_view_name('delete_entry'), layout: admin_view_name('layout'), locals: { entry: entry }
+end
+
+post '/admin/entries/:entry_id/delete' do |entry_id|
+  raise 'csrf check error' unless check_csrf_token
+
+  entry = EntryService.load(entry_id)
+  entry.delete
+  redirect '/admin/entries'
 end
 
 get '/admin/entries/:entry_id' do |entry_id|
@@ -53,23 +80,10 @@ post '/admin/entries/:entry_id' do |entry_id|
   entry = EntryService.load(entry_id)
   entry.body = params['body']
   entry.title = params['title']
-  entry.publish(params['do_publish'])
   entry.tags = params['tags'].split(' ')
+  entry.publish(params['do_publish'])
   entry.save
   redirect "/admin/entries/#{entry_id}"
-end
-
-get '/admin/entries/:entry_id/delete' do |entry_id|
-  entry = EntryService.load(entry_id)
-  slim admin_view_name('delete_entry'), layout: admin_view_name('layout'), locals: { entry: entry }
-end
-
-post '/admin/entries/:entry_id/delete' do |entry_id|
-  raise 'csrf check error' unless check_csrf_token
-
-  entry = EntryService.load(entry_id)
-  entry.delete
-  redirect '/admin/entries'
 end
 
 get '/admin/files' do
