@@ -1,0 +1,25 @@
+.content
+  h2
+    = t("admin.admin_tool")
+
+  h3
+    = t("admin.menu")
+    ul.menu
+      li.entries
+        a href="/admin/entries"
+          = t("admin.entries")
+        a.button.is-primary.is-small href="/admin/entries/new"
+          = t("admin.new_entry")
+      li.upload_files
+        a href="/admin/files"
+          = t("admin.upload_files")
+        a.button.is-primary.is-small href="/admin/files/new"
+          = t("admin.new_file")
+sass:
+  .menu
+    li
+      a
+        vertical-align: middle
+      .button
+        margin-left: 1rem
+

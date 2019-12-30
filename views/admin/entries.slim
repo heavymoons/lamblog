@@ -1,0 +1,49 @@
+.content
+  h2
+    = t('entries')
+
+  .control
+    a href="/admin/entries"
+      = t('admin.all')
+    a href="/admin/entries?published=true"
+      = t('admin.published_only')
+    a href="/admin/entries?published=false"
+      = t('admin.unpublished_only')
+
+  table
+    thead
+      th
+        = t('entry.entry_id')
+      th
+        = t('entry.title')
+      th
+        = t('entry.created_at')
+      th
+        = t('entry.published_at')
+      th
+        = t('control')
+    tbody
+      - items.items.each do |entry_id, item|
+        tr
+          td
+            = item.entry_id
+          td
+            .tags
+              - item.tags.each do |tag|
+                a.button.is-small.is-light href="/admin/entries?tag=#{URI.escape(tag)}"
+                  = tag
+            a href="/entry/#{item.entry_id}"
+             = item.title
+          td
+            = datetime_text(item.created_at)
+          td
+            = item.published_at ? datetime_text(item.published_at) : '-'
+          th
+            a.button.is-primary href="/admin/entries/#{item.entry_id}"
+              = t('edit')
+            a.button href="/admin/entries/#{item.entry_id}/delete"
+              = t('delete')
+
+sass:
+  .tags
+    font-size: 0.7rem

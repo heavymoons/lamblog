@@ -1,0 +1,16 @@
+== slim view_name("components/custom_html"), locals: { name: 'footer_top' }
+footer.footer
+  a href="https://heavymoons.net/lamblog/"
+    | lamblog
+  | by
+  a href="https://heavymoons.net/"
+    | heavymoons
+  | licensed by MIT.
+== slim view_name("components/custom_html"), locals: { name: 'footer_bottom' }
+
+sass:
+  footer
+    text-align: center
+
+    a
+      margin: 0.3rem

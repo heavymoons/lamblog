@@ -1,0 +1,44 @@
+form.form method="post" action="/admin/entries/#{entry.entry_id}/delete"
+  == hidden_csrf_token
+  .field
+    label.label
+      = t('entry.entry_id')
+    .control
+      input.input type="text" placeholder=t('entry.entry_id_placeholder') value=entry.entry_id disabled=!entry.entry_id.nil?
+
+  .field
+    label.label
+      = t('entry.title')
+    .control
+      input.input type="text" placeholder=t('entry.title_placeholder') value=entry.title
+
+  .field
+    label.label
+      = t('entry.published_at')
+    .control
+      input.input type="text" placeholder=t('entry.published_at_placeholder') value=entry.published_at disabled=true
+
+    label.label
+      = t('entry.body')
+    .control
+      .tabs
+        ul
+          li
+            a id='text_area_tab'
+              = t('edit')
+          li
+            a id='html_area_tab'
+              = t('preview')
+      #text_area
+        textarea.textarea placeholder=t('entry.body_placeholder') id="body" disabled=true
+          = entry.body
+      #html_area.content
+        == markdown(entry.body)
+
+  .field.is-grouped
+    .control
+      button.button.is-link
+        = t('delete')
+    .control
+      button.button.is-link.is-light
+        = t('cancel')

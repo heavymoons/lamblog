@@ -1,0 +1,20 @@
+.content
+  form.form method="POST" action="/auth/login"
+    .field
+      label.label
+        = t('login_form.email')
+      .control
+        input.input type="text" name="email" placeholder=t('login.email_placeholder')
+    .field
+      label.label
+        = t('login_form.password')
+      .control
+        input.input type="password" name="password" placeholder=t('login.password_placeholder')
+
+    .field.is-grouped
+      .control
+        button.button.is-link
+          = t('login')
+      .control
+        a.button.is-link.is-light href="/"
+          = t('cancel')
