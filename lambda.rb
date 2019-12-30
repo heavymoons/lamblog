@@ -5,7 +5,7 @@ require 'rack'
 
 $app ||= Rack::Builder.parse_file("#{__dir__}/config.ru").first
 
-def handler(event:, _:)
+def handler(event:, context:)
   p event
   body = event['body'] || ''
   body = Base64.decode64(body) if event['isBase64Encoded']
