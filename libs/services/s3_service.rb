@@ -9,7 +9,8 @@ module S3Service
 
   def list(key, _options = {})
     token = nil
-    list = []
+    files = []
+    dirs = []
     loop do
       params = default_option
       params.merge!(
@@ -18,13 +19,16 @@ module S3Service
       )
       params[:continuation_token] = token unless token.nil?
       s3_result = client.list_objects_v2(params)
-      list += s3_result[:contents].map do |content|
+      dirs += s3_result[:common_prefixes].map do |content|
+        content[:prefix].slice(key.size, content[:prefix].size)
+      end.reject { |name| name.size == 0 }
+      files += s3_result[:contents].map do |content|
         content[:key].slice(key.size, content[:key].size)
       end.reject { |name| name.size == 0 }
       token = s3_result[:next_continuation_token]
       break if token.nil?
     end
-    list
+    [files, dirs]
   end
 
   def load(key, options = {})
@@ -53,7 +57,7 @@ module S3Service
   end
 
   def save_public(key, data, options = {})
-    save(key, data, options + { acl: 'public-read' })
+    save(key, data, options.merge({ acl: 'public-read' }))
   end
 
   def default_option

@@ -1,0 +1,67 @@
+.content
+
+  form.uploader id="uploader" method="post" action="" enctype="multipart/form-data"
+    == hidden_csrf_token
+    .files
+      label.label
+        = t('file.files')
+        span.attention
+          = t('file.drop_to_upload')
+      input.input.file type="file" name="files[]" id="file" multiple="multiple"
+    button.button type="submit"
+      = t("file.upload")
+
+  ul.dirs
+    li
+      a href="/admin/files/"
+        = "/ (root)"
+    li
+      = "/#{path} (current)"
+
+    li
+      form.mkdir method="post" action=""
+        == hidden_csrf_token
+        input.input.is-small.dirname type="text" name="dirname"
+        input.mkdir.button.is-small type="submit" value=t('file.mkdir')
+
+    - dirlist.each do |dir|
+      li
+        a href="/admin/files/#{dir}"
+          = dir
+
+  ul.files
+    - filelist.each do |file|
+      li
+        form.delete_file method="post" action=""
+          a href="/files/#{path}#{file}"
+            = file
+          == hidden_csrf_token
+          input.delete_file type="hidden" name="delete_file" value=file
+          input.delete_file.button.is-small type="submit" value=t('file.delete_file')
+
+javascript:
+  $(document).ready(function() {
+    $('#file').on('drop', function(e) {
+      e.preventDefault();
+      document.getElementById("file").files = e.originalEvent.dataTransfer.files;
+      $('#uploader').trigger('submit');
+    });
+  });
+sass:
+  form.mkdir
+    input.dirname
+      width: 15rem
+    input.mkdir
+  form.delete_file
+    input.delete_file
+      margin-left: 0.5rem
+  .uploader
+    .attention
+      font-weight: bold
+      margin-left: 1rem
+      font-size: 0.7rem
+    .file
+      height: 5rem
+      vertical-align: middle
+    .dragndrop, .uploading, .success, .error
+      display: none

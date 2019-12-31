@@ -25,8 +25,8 @@ module CustomHtmlService
 
   def list()
     key = "#{BASE_KEY}/"
-    list = S3Service.list(key)
-    list.map { |item| item.split('.').first }
+    files, _ = S3Service.list(key)
+    files.map { |item| item.split('.').first }
   end
 
   def load(name, default = nil)

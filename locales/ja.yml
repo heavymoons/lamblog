@@ -26,6 +26,12 @@ ja:
   login_form:
     email: "メールアドレス"
     password: "パスワード"
+  file:
+    mkdir: "フォルダ作成"
+    delete_file: "削除"
+    upload: "アップロード"
+    files: "ファイル"
+    drop_to_upload: 'ファイルをドロップするとアップロードします'
   control: "操作"
   edit: "編集"
   delete: "削除"

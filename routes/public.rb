@@ -82,6 +82,11 @@ get '/tag/*' do |keyword|
   }
 end
 
+get '/files/*' do |path|
+  content_type MIME::Types.type_for(path).first.to_s
+  FileService.load(path)
+end
+
 get '/(*).(*)' do |filename, ext|
   path = "#{__dir__}/../static/#{filename}.#{ext}"
   not_found unless File.exists?(path)

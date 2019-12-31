@@ -21,8 +21,8 @@ module IndexService
 
   def refresh
     index = {}
-    entry_keys = S3Service.list(EntryService.key_base)
-    entry_keys.each do |entry_key|
+    files, _ = S3Service.list(EntryService.key_base)
+    files.each do |entry_key|
       entry_id = key_to_entry_id(entry_key)
       entry = EntryService.load(entry_id)
       index[entry_id] = Index::Item.new(entry.to_h)

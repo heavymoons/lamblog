@@ -6,9 +6,12 @@ require 'rack'
 $app ||= Rack::Builder.parse_file("#{__dir__}/config.ru").first
 
 def handler(event:, context:)
-  p event
-  body = event['body'] || ''
-  body = Base64.decode64(body) if event['isBase64Encoded']
+  raw_body = event['body'] || ''
+  body = if event['isBase64Encoded']
+    Base64.decode64(raw_body)
+  else
+    raw_body
+  end
 
   querystring = event['queryStringParameters'] || nil
   querystring = Rack::Utils.build_query(querystring) unless querystring.nil?
@@ -26,9 +29,12 @@ def handler(event:, context:)
     'rack.input' => StringIO.new(body),
     'rack.errors' => $stderr
   }
-  p env
 
-  event['headers']&.each { |key, value| env["HTTP_#{key.upcase.gsub('-', '_')}"] = value }
+  event['headers']&.each do |key, value|
+    converted_key = key.upcase.gsub('-', '_')
+    env["HTTP_#{converted_key}"] = value
+    env[converted_key] = value if env[converted_key].nil?
+  end
 
   begin
     status, headers, body = $app.call(env)

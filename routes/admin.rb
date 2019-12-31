@@ -2,6 +2,7 @@
 
 require_relative '../libs/services/index_service'
 require_relative '../libs/services/custom_html_service'
+require_relative '../libs/services/file_service'
 
 before '/admin/*' do
   not_found unless session[:login]
@@ -136,22 +137,47 @@ post '/admin/custom_htmls/:name' do |name|
 
   html = params['html']
   CustomHtmlService.save(name, html)
-  redirect("/admin/custom_htmls/#{name}")
+  redirect "/admin/custom_htmls/#{name}"
 end
 
 
 get '/admin/files' do
+  redirect '/admin/files/'
 end
 
 get '/admin/files/new' do
 end
 
-get '/admin/files/*' do
+get '/admin/files/*' do |path|
+  filelist, dirlist = FileService.list(path)
+  slim admin_view_name('files'), layout: admin_view_name('layout'), locals: {path: path, dirlist: dirlist, filelist: filelist}
 end
 
-post '/admin/files/*' do
+post '/admin/files/*' do |path|
+  raise 'csrf check error' unless check_csrf_token
+
+  if params['delete_file']
+    fullpath = File.join(path, params['delete_file'])
+    FileService.delete(fullpath)
+  end
+
+  if params['dirname'].to_s.size > 0
+    fullpath = File.join(path, params['dirname'])
+    FileService.mkdir(fullpath)
+  end
+
+  if params['files']
+    params['files'].each do |file|
+      next if file.instance_of?(String) # Lambda support
+      filename = File.join(path, file['filename'])
+      data = file['tempfile'].read
+      FileService.save(filename, data)
+    end
+  end
+  redirect "/admin/files/#{path}"
 end
 
 get '/admin/index/refresh' do
   IndexService.refresh
+  redirect '/admin'
 end
