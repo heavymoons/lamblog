@@ -37,3 +37,6 @@ en:
   logout: "Logout"
   archives: "Archives"
   tags: "Tags"
+  saved: "Saved"
+  deleted: "Deleted"
+  uploaded: "Uploaded"

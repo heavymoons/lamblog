@@ -60,3 +60,18 @@ end
 def check_csrf_token
   params['authenticity_token'] == session[:csrf]
 end
+
+def send_flash(message)
+  session[:flash] ||= []
+  session[:flash].push message
+end
+
+def has_flash?
+  !session[:flash].nil?
+end
+
+def retrieve_flash
+  flashes = session[:flash] || []
+  session.delete(:flash)
+  flashes
+end
