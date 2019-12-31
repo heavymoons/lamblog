@@ -1,0 +1,25 @@
+.entry
+  h2
+    - entry.tags.each do |tag|
+      a.button.is-small.is-light href="/tag/#{URI.escape(tag)}"
+        = tag
+    br
+    a href=entry.url
+      = entry.title
+    a.button.is-small.is-light href="/admin/entries/#{entry.entry_id}"
+      = t('edit')
+  .body
+    == entry.body_html || markdown(entry.body)
+  p.meta
+    span.published_at
+      = t('entry.published_at')
+      = datetime_text(entry.published_at)
+    span.updated_at
+      = t('entry.updated_at')
+      = datetime_text(entry.updated_at)
+
+sass:
+  p.meta
+    margin-top: 1rem
+    span
+      margin-right: 0.5rem

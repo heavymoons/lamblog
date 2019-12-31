@@ -1,0 +1,11 @@
+.idea
+*.iml
+Gemfile.lock
+.env
+vendor
+.bundle
+*.zip
+custom_html
+data
+static/*
+!README.md

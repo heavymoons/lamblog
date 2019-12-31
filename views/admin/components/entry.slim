@@ -1,0 +1,14 @@
+.entry
+  h2
+    = entry.title
+  .body
+    == entry.body_html || markdown(entry.body)
+  dl.meta
+    dt.published_at
+      = t('published_at')
+    dd.published_at
+      = datetime_text(entry.published_at)
+    dt.updated_at
+      = t('updated_at')
+    dd.updated_at
+      = datetime_text(entry.updated_at)

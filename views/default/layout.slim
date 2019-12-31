@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    script src= "https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin= "anonymous"
+    title
+      = setting('SITE_NAME')
+body
+  .container.is-fluid
+    #header
+      == slim view_name("header")
+    == slim view_name("components/custom_html"), locals: { name: 'content_top' }
+    #content
+      == yield
+    == slim view_name("components/custom_html"), locals: { name: 'content_bottom' }
+    #footer
+      == slim view_name("footer")
+
+sass:

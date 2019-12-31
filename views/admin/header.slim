@@ -1,0 +1,19 @@
+nav.navbar role="navigation" aria-label="main navigation"
+  .navbar-brand
+    h1
+      a.navbar-item href="/"
+        = setting('SITE_NAME')
+  .navbar-menu
+    a.navbar-item href="/admin/"
+      = t('admin.admin_tool')
+
+    .navbar-end
+      .navbar-item
+        .buttons
+          a.button.is-light href="/auth/logout"
+            = t('logout')
+
+sass:
+  h1
+    font-size: 1.5rem
+    font-weight: bold

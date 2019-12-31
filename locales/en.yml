@@ -1,0 +1,39 @@
+en:
+  admin:
+    admin_tool: "Admin Tools"
+    menu: "Menu"
+    new_entry: "New Entry"
+    entries: "Entries"
+    upload_files: "Upload Files"
+    new_file: "New File"
+    all: 'All'
+    published_only: 'Published Only'
+    unpublished_only: 'Not Published Only'
+  entry:
+    entry_id: "Entry ID"
+    title: "Title"
+    created_at: "Created At"
+    updated_at: "Updated At"
+    published_at: "Published At"
+    body: "Body"
+    tags: "Tags"
+    entry_id_placeholder: ""
+    title_placeholder: ""
+    body_placeholder: ""
+    publish_no: "Not Publish"
+    publish_yes: "Publish"
+    publish_update: "Update Published At"
+  login_form:
+    email: "Email"
+    password: "Password"
+  control: "Control"
+  edit: "Edit"
+  delete: "Delete"
+  save: "Save"
+  cancel: "Cancel"
+  preview: "Preview"
+  home: 'Home'
+  login: "Login"
+  logout: "Logout"
+  archives: "Archives"
+  tags: "Tags"

@@ -1,0 +1,26 @@
+form.form method="POST" action="/admin/custom_htmls/#{name}/delete"
+  == hidden_csrf_token
+  .field
+    label.label
+      = t('custom_html.name')
+    .control
+      input.input type="text" name="name" placeholder=t('custom_html.name_placeholder') value=name disabled=true
+
+  .field
+    label.label
+      = t('entry.body')
+    .control
+      textarea.textarea placeholder=t('entry.body_placeholder') name="html" id="html" disabled=false
+        = html
+
+  .field.is-grouped
+    .control
+      button.button.is-link
+        = t('delete')
+    .control
+      a.button.is-link.is-light href="/admin/custom_htmls"
+        = t('cancel')
+
+sass:
+  .textarea
+    height: 20rem

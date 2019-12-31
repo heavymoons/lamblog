@@ -1,0 +1,132 @@
+form.form method="POST" action="/admin/entries/#{entry.entry_id ? entry.entry_id : 'new'}"
+  == hidden_csrf_token
+  .field
+    label.label
+      = t('entry.entry_id')
+    .control
+      input.input type="text" name="entry_id" placeholder=t('entry.entry_id_placeholder') value=entry.entry_id disabled=!entry.entry_id.nil?
+
+  .field
+    label.label
+      = t('entry.title')
+    .control
+      input.input type="text" name="title" placeholder=t('entry.title_placeholder') value=entry.title
+
+  .field
+    label.label
+      = t('entry.published_at')
+    .control
+      input.input type="text" name="published_at" placeholder=t('entry.published_at_placeholder') value=entry.published_at disabled=true
+    .control
+      label.radio
+        input type="radio" name="do_publish" value="no" checked=entry.published_at.nil?
+          = t('entry.publish_no')
+      label.radio
+        input type="radio" name="do_publish" value="yes" checked=!entry.published_at.nil?
+          = t('entry.publish_yes')
+      label.radio
+        input type="radio" name="do_publish" value="update"
+          = t('entry.publish_update')
+
+  .field
+    label.label
+      = t('entry.body')
+    .control
+      .tabs
+        ul
+          li
+            a id='text_area_tab'
+              = t('edit')
+          li
+            a id='html_area_tab'
+              = t('preview')
+      #text_area
+        textarea.textarea placeholder=t('entry.body_placeholder') name="body" id="body"
+          = entry.body
+      #html_area.content style="display: none;"
+
+  .field
+    label.label
+      = t('entry.tags')
+      input.input type="text" name="tags" placeholder=t('entry.tags_placeholder') value=entry.tags.join(' ')
+
+  .field.is-grouped
+    .control
+      button.button.is-link
+        = t('save')
+    .control
+      button.button.is-link.is-light
+        = t('cancel')
+
+sass:
+  #body
+    height: 20rem
+    #html_area
+      max-height: 20rem
+      overflow: scroll
+
+javascript:
+  $(document).ready(() => {
+    $('#text_area_tab').click((e) => {
+      show_text_area();
+    });
+    $('#html_area_tab').click((e) => {
+      show_html_area();
+    });
+  });
+  function show_text_area() {
+    $('#text_area_tab').addClass("is-active");
+    $('#html_area_tab').removeClass('is-active');
+    $('#text_area').css("display", "block");
+    $('#html_area').css("display","none");
+  }
+  function show_html_area() {
+    const body = $('#body').val();
+    $.ajax({
+      url: "/admin/entries/preview",
+      data: {
+        body: body
+      },
+      dataType: 'html',
+      type: "POST",
+    }).done((data) => {
+      $('#html_area').html(data);
+
+      $('#text_area_tab').addClass("is-active");
+      $('#html_area_tab').removeClass('is-active');
+      $('#text_area').css("display", "none");
+      $('#html_area').css("display", "block");
+    });
+  }
+
+  $(document).ready(function() {
+    $('#body').on('drop', function(e) {
+      e.preventDefault();
+
+      var file = e.originalEvent.dataTransfer.files[0];
+      var formData = new FormData();
+      var filedir = "/files/#{Time.now.strftime('%Y%m%d')}/";
+      var filepath = filedir + file.name;
+      formData.append('files[]', file);
+      formData.append('authenticity_token', "#{csrf_token}");
+      $.ajax({
+        url: '/admin' + filedir,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+      }).done(function (data, status, response) {
+        var target = $('#body');
+        target.focus();
+        var image_tag = '<img src="' + filepath + '" style="max-width: 50%;" />';
+        var cursorPos = target.prop('selectionStart');
+        var v = target.val();
+        var textBefore = v.substring(0, cursorPos);
+        var textAfter = v.substring(cursorPos, v.length);
+
+        target.val(textBefore + image_tag + textAfter);
+      }).fail(function (response, status, thrown) {
+        alert('upload failure');
+      });
+    });
+  });

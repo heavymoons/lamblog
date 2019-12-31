@@ -1,0 +1,12 @@
+== slim view_name("components/custom_html"), locals: { name: 'footer_top' }
+footer.footer
+  a href="https://github.com/heavymoons/lamblog"
+    ' lamblog
+  ' by
+  a href="https://heavymoons.net/tag/lamblog"
+    ' heavymoons
+== slim view_name("components/custom_html"), locals: { name: 'footer_bottom' }
+
+sass:
+  footer
+    text-align: center

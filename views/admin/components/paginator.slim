@@ -1,0 +1,23 @@
+- max_page = item_count / limit + 1
+- if max_page > 1
+  .paginator
+    - max_page = item_count / limit + 1
+    - query_string = Rack::Utils.parse_nested_query(request.query_string)
+    - start_page = page - 5
+    - finish_page = page + 5
+    - (1..max_page).each do |apage|
+      - if apage == 1 || apage == max_page || (apage >= start_page && apage <= finish_page)
+        span.page.button.is-small.is-light
+          - if apage == page
+            = apage
+          - else
+            - query_string['page'] = apage
+            a href="?#{URI.encode_www_form(query_string)}"
+              = apage
+
+sass:
+  .paginator
+    text-align: center
+    span.page
+      margin-left: 0.2rem
+      margin-right: 0.2rem

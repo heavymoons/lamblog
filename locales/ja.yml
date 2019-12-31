@@ -1,0 +1,46 @@
+ja:
+  admin:
+    admin_tool: "管理ツール"
+    menu: "メニュー"
+    entries: "記事一覧"
+    new_entry: "新規記事"
+    upload_files: "アップロードファイル"
+    new_file: "新規ファイル"
+    all: 'すべて'
+    published_only: '公開のみ'
+    unpublished_only: '非公開のみ'
+    custom_htmls: 'カスタムHTML'
+  entry:
+    entry_id: "記事ID"
+    title: "タイトル"
+    created_at: "作成日"
+    updated_at: "更新日"
+    published_at: "公開日"
+    body: "本文"
+    tags: "タグ"
+    entry_id_placeholder: "（空の場合は YYYYMMDD-(random) 形式で自動登録されます）"
+    title_placeholder: "タイトルを入力してください"
+    body_placeholder: "本文を入力してください"
+    publish_no: "公開しない"
+    publish_yes: "公開する"
+    publish_update: "公開日時を更新"
+  login_form:
+    email: "メールアドレス"
+    password: "パスワード"
+  file:
+    mkdir: "フォルダ作成"
+    delete_file: "削除"
+    upload: "アップロード"
+    files: "ファイル"
+    drop_to_upload: 'ファイルをドロップするとアップロードします'
+  control: "操作"
+  edit: "編集"
+  delete: "削除"
+  save: "保存"
+  cancel: "キャンセル"
+  preview: "プレビュー"
+  home: 'ホーム'
+  login: "ログイン"
+  logout: "ログアウト"
+  archives: "アーカイブ"
+  tags: "タグ"
