@@ -155,7 +155,6 @@ end
 
 post '/admin/files/*' do |path|
   raise 'csrf check error' unless check_csrf_token
-
   if params['delete_file']
     fullpath = File.join(path, params['delete_file'])
     FileService.delete(fullpath)

@@ -98,3 +98,35 @@ javascript:
       $('#html_area').css("display", "block");
     });
   }
+
+  $(document).ready(function() {
+    $('#body').on('drop', function(e) {
+      e.preventDefault();
+
+      var file = e.originalEvent.dataTransfer.files[0];
+      var formData = new FormData();
+      var filedir = "/files/#{Time.now.strftime('%Y%m%d')}/";
+      var filepath = filedir + file.name;
+      formData.append('files[]', file);
+      formData.append('authenticity_token', "#{csrf_token}");
+      $.ajax({
+        url: '/admin' + filedir,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+      }).done(function (data, status, response) {
+        var target = $('#body');
+        target.focus();
+        var image_tag = '<img src="' + filepath + '" style="max-width: 50%;" />';
+        var cursorPos = target.prop('selectionStart');
+        var v = target.val();
+        var textBefore = v.substring(0, cursorPos);
+        var textAfter = v.substring(cursorPos, v.length);
+
+        target.val(textBefore + image_tag + textAfter);
+      }).fail(function (response, status, thrown) {
+        alert('upload failure');
+      });
+    });
+  });
