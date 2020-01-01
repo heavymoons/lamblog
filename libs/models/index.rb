@@ -109,6 +109,10 @@ class Index
       @tags = data['tags'] || []
     end
 
+    def url
+      "/entry/#{entry_id}"
+    end
+
     def to_h
       {
         'entry_id' => entry_id,
