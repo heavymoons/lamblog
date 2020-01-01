@@ -9,7 +9,7 @@
     a.button.is-small.is-light href="/admin/entries/#{entry.entry_id}"
       = t('edit')
   .body
-    == entry.body_html || markdown(entry.body)
+    == entry.body_html || markdown_to_html(entry.body)
   p.meta
     span.published_at
       = t('entry.published_at')

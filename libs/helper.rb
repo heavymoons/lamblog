@@ -18,18 +18,20 @@ def t(translate_id)
   I18n.t(translate_id)
 end
 
-def markdown(markdown_text)
+def markdown_to_htlm(markdown_text)
   renderer ||= Redcarpet::Render::HTML.new(
     with_toc_data: true,
     prettify: true
   )
-  markdown ||= Redcarpet::Markdown.new(renderer,
+  parser ||= Redcarpet::Markdown.new(renderer,
     tables: true,
     fenced_code_blocks: true,
     autolink: true,
     strikethrough: true,
-    footnotes: true)
-  markdown.render(markdown_text)
+    footnotes: true,
+    no_intra_emphasis: true
+  )
+  parser.render(markdown_text)
 end
 
 def custom_html(name)

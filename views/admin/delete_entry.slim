@@ -33,7 +33,7 @@ form.form method="post" action="/admin/entries/#{entry.entry_id}/delete"
         textarea.textarea placeholder=t('entry.body_placeholder') id="body" disabled=true
           = entry.body
       #html_area.content
-        == markdown(entry.body)
+        == markdown_to_html(entry.body)
 
   .field.is-grouped
     .control

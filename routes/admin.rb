@@ -86,7 +86,7 @@ end
 
 post '/admin/entries/preview' do
   body = params['body']
-  markdown(body)
+  markdown_to_html(body)
 end
 
 post '/admin/entries/:entry_id' do |entry_id|
