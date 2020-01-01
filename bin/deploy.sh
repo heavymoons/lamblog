@@ -5,6 +5,10 @@ echo DIR_NAME=$DIR_NAME
 
 . .env
 
+if [ "$AWS_PROFILE" != "" ]; then
+  export AWS_PROFILE=$AWS_PROFILE
+fi
+
 rm -rf verndor
 rm -f lambda.zip
 
