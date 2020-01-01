@@ -18,7 +18,7 @@ def t(translate_id)
   I18n.t(translate_id)
 end
 
-def markdown_to_htlm(markdown_text)
+def markdown_to_html(markdown_text)
   renderer ||= Redcarpet::Render::HTML.new(
     with_toc_data: true,
     prettify: true
