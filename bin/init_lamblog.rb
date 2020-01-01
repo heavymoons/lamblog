@@ -14,7 +14,6 @@ module InitAws
   def main
     check_config
 
-    create_bucket
     create_default_entry
   end
 
@@ -29,32 +28,6 @@ module InitAws
     entry.body = 'This is my first entry.'
     entry.publish
     entry.save
-  end
-
-  def create_bucket
-    if bucket_exists?
-      puts "bucket already exists: #{ENV['S3_BUCKET']}"
-      return
-    end
-
-    params = {
-      bucket: ENV['S3_BUCKET'],
-      create_bucket_configuration: {
-        location_constraint: ENV['AWS_REGION']
-      },
-      acl: 'private'
-    }
-    client.create_bucket(params)
-  end
-
-  def bucket_exists?
-    params = {
-      bucket: ENV['S3_BUCKET']
-    }
-    client.head_bucket(params)
-    true
-  rescue StandardError
-    false
   end
 
   def check_config
