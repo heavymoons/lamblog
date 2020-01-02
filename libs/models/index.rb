@@ -46,6 +46,7 @@ class Index
 
       result
     end
+    self
   end
 
   def sort(conditions = {})
@@ -61,6 +62,7 @@ class Index
       end
       order
     end
+    self
   end
 
   def limit(limit, offset = 0)
