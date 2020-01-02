@@ -32,7 +32,7 @@ get %r{/(\d{4})/(\d{2})} do |year, month|
   index = IndexService.load
   published_from = "#{year}-#{month}-01"
   published_to = "#{year}-#{month}-32"
-  index.filter(published_from: published_from, published_to: published_to)
+  index.filter(published: true, published_from: published_from, published_to: published_to)
   index.sort(published_at: :asc)
 
   limit = 10

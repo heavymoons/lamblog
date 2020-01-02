@@ -29,13 +29,13 @@ class Index
   def filter(tags: [], published: nil, published_from: nil, published_to: nil)
     @items = items.select do |_, item|
       result = true
-      unless tags.empty?
+      unless !result || tags.empty?
         result &= tags.all? { |tag| item.tags.include?(tag) }
       end
-      unless published.nil?
+      unless !result || published.nil?
         result &= published ? !item.published_at.nil? : item.published_at.nil?
       end
-      unless published_from.nil? && published_to.nil?
+      unless !result || (published_from.nil? && published_to.nil?)
         unless published_from.nil?
           result &= false if item.published_at <= published_from
         end
