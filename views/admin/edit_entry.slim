@@ -1,1 +1,9 @@
+.content
+  h2
+    - if entry.entry_id
+      a href=entry.url
+        = entry.title || entry.url
+    - else
+      = t('admin.new_entry')
+
 == slim admin_view_name('components/entry_form'), locals: { entry: entry }

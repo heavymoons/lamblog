@@ -1,0 +1,13 @@
+| <?xml version="1.0" encoding="UTF-8"?>
+urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  - index.items.each do |_, item|
+    - priority = Time.now - Time.parse(item.updated_at) < 60 * 60 * 24 * 30 ? 1 : 0.1
+    url
+      loc
+        ="#{setting('BASE_URL')}#{item.url}"
+      lastmod
+        = Time.parse(item.updated_at).strftime('%Y-%m-%d')
+      changefreq
+        = priority > 0.5 ? 'daily' : 'monthly'
+      priority
+        = priority

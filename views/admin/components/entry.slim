@@ -2,7 +2,7 @@
   h2
     = entry.title
   .body
-    == entry.body_html || markdown(entry.body)
+    == entry.body_html || markdown_to_html(entry.body)
   dl.meta
     dt.published_at
       = t('published_at')

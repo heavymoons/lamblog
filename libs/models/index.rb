@@ -29,13 +29,13 @@ class Index
   def filter(tags: [], published: nil, published_from: nil, published_to: nil)
     @items = items.select do |_, item|
       result = true
-      unless tags.empty?
+      unless !result || tags.empty?
         result &= tags.all? { |tag| item.tags.include?(tag) }
       end
-      unless published.nil?
+      unless !result || published.nil?
         result &= published ? !item.published_at.nil? : item.published_at.nil?
       end
-      unless published_from.nil? && published_to.nil?
+      unless !result || (published_from.nil? && published_to.nil?)
         unless published_from.nil?
           result &= false if item.published_at <= published_from
         end
@@ -46,6 +46,7 @@ class Index
 
       result
     end
+    self
   end
 
   def sort(conditions = {})
@@ -61,6 +62,7 @@ class Index
       end
       order
     end
+    self
   end
 
   def limit(limit, offset = 0)
@@ -107,6 +109,10 @@ class Index
       @created_at = data['created_at']
       @updated_at = data['updated_at']
       @tags = data['tags'] || []
+    end
+
+    def url
+      "/entry/#{entry_id}"
     end
 
     def to_h

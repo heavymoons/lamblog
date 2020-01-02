@@ -18,18 +18,20 @@ def t(translate_id)
   I18n.t(translate_id)
 end
 
-def markdown(markdown_text)
+def markdown_to_html(markdown_text)
   renderer ||= Redcarpet::Render::HTML.new(
     with_toc_data: true,
     prettify: true
   )
-  markdown ||= Redcarpet::Markdown.new(renderer,
+  parser ||= Redcarpet::Markdown.new(renderer,
     tables: true,
     fenced_code_blocks: true,
     autolink: true,
     strikethrough: true,
-    footnotes: true)
-  markdown.render(markdown_text)
+    footnotes: true,
+    no_intra_emphasis: true
+  )
+  parser.render(markdown_text)
 end
 
 def custom_html(name)
@@ -59,4 +61,19 @@ end
 
 def check_csrf_token
   params['authenticity_token'] == session[:csrf]
+end
+
+def send_flash(message)
+  session[:flash] ||= []
+  session[:flash].push message
+end
+
+def has_flash?
+  !session[:flash].nil?
+end
+
+def retrieve_flash
+  flashes = session[:flash] || []
+  session.delete(:flash)
+  flashes
 end

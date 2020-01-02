@@ -29,7 +29,7 @@ class Entry
     @entry_id ||= new_id
     @created_at ||= Time.now
     @updated_at = Time.now
-    @body_html = markdown(body)
+    @body_html = markdown_to_html(body)
     unless @tags.instance_of?(Array)
       @tags = @tags.to_s.split(/[\s　]+/).reject(&:empty?)
     end

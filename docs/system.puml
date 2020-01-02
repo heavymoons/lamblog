@@ -1,0 +1,17 @@
+@startuml
+
+[Lambda]
+[API Gateway HTTP API] as [API Gateway]
+[CloudFront]
+[S3]
+[Client]
+[Lamblog]
+
+[Lambda] <-- [API Gateway]
+[S3] <-- [CloudFront]
+[Lamblog] <-- [Lambda]
+[Lamblog] <--> [S3]
+[API Gateway] <-- [CloudFront]
+[Client] -> [CloudFront]
+
+@enduml

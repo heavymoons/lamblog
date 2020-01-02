@@ -57,6 +57,8 @@ post '/admin/entries/new' do
   entry.tags = params['tags'].split(' ')
   entry.publish(params['do_publish'])
   entry.save
+
+  send_flash t('saved.')
   redirect "/admin/entries/#{entry.entry_id}"
 end
 
@@ -70,6 +72,8 @@ post '/admin/entries/:entry_id/delete' do |entry_id|
 
   entry = EntryService.load(entry_id)
   entry.delete
+
+  send_flash t('deleted.')
   redirect '/admin/entries'
 end
 
@@ -82,7 +86,7 @@ end
 
 post '/admin/entries/preview' do
   body = params['body']
-  markdown(body)
+  markdown_to_html(body)
 end
 
 post '/admin/entries/:entry_id' do |entry_id|
@@ -94,6 +98,8 @@ post '/admin/entries/:entry_id' do |entry_id|
   entry.tags = params['tags'].split(' ')
   entry.publish(params['do_publish'])
   entry.save
+
+  send_flash t('saved.')
   redirect "/admin/entries/#{entry_id}"
 end
 
@@ -120,6 +126,8 @@ post '/admin/custom_htmls/:name/delete' do |name|
   raise 'csrf check error' unless check_csrf_token
 
   CustomHtmlService.delete(name)
+
+  send_flash t('deleted.')
   redirect("/admin/custom_htmls")
 end
 
@@ -137,15 +145,14 @@ post '/admin/custom_htmls/:name' do |name|
 
   html = params['html']
   CustomHtmlService.save(name, html)
+
+  send_flash t('saved.')
   redirect "/admin/custom_htmls/#{name}"
 end
 
 
 get '/admin/files' do
   redirect '/admin/files/'
-end
-
-get '/admin/files/new' do
 end
 
 get '/admin/files/*' do |path|
@@ -157,11 +164,15 @@ post '/admin/files/*' do |path|
   raise 'csrf check error' unless check_csrf_token
   if params['delete_file']
     fullpath = File.join(path, params['delete_file'])
+
+    send_flash t('deleted.')
     FileService.delete(fullpath)
   end
 
   if params['dirname'].to_s.size > 0
     fullpath = File.join(path, params['dirname'])
+
+    send_flash t('created.')
     FileService.mkdir(fullpath)
   end
 
@@ -171,6 +182,7 @@ post '/admin/files/*' do |path|
       filename = File.join(path, file['filename'])
       data = file['tempfile'].read
       FileService.save(filename, data)
+      send_flash t('uploaded.')
     end
   end
   redirect "/admin/files/#{path}"

@@ -13,10 +13,6 @@ if development?
   Dir[File.join(__dir__, '**', '*.rb')].each { |f| also_reload f }
 end
 
-before do
-  I18n.locale = 'ja'
-end
-
 require_relative 'routes/error'
 require_relative 'routes/public'
 require_relative 'routes/admin'

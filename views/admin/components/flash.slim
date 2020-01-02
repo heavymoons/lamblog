@@ -1,0 +1,17 @@
+- if has_flash?
+  .notification
+    button.delete
+    ul
+      - retrieve_flash.each do |message|
+        li
+          = message
+
+  javascript:
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+    });
