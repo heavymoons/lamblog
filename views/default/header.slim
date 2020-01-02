@@ -1,4 +1,4 @@
-== slim view_name("components/custom_html"), locals: { name: 'header_top' }
+== slim view_name("components/custom_html"), locals: {name: 'header_top'}
 
 nav.navbar role="navigation" aria-label="main navigation"
   .navbar-brand
@@ -6,30 +6,36 @@ nav.navbar role="navigation" aria-label="main navigation"
       a.navbar-item href="/"
         = setting('SITE_NAME')
 
-  .navbar-menu
-    .navbar-item.has-dropdown.is-hoverable
-      .navbar-link
-        = t('archives')
+    a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"
+      span aria-hidden="true"
+      span aria-hidden="true"
+      span aria-hidden="true"
 
-      .navbar-dropdown
-        - year_months ||= IndexService.load.year_months
-        - year_months.each do |year_month, count|
-          - year = year_month.split('/').first
-          - month = year_month.split('/').last
-          a.navbar-item href="/#{year}/#{month}"
-            = "#{year}/#{month}"
-            = "(#{count})"
+  .navbar-menu id="navbarMenu"
+    .navbar-start
+      .navbar-item.has-dropdown.is-hoverable
+        .navbar-link
+          = t('archives')
 
-    .navbar-item.has-dropdown.is-hoverable
-      .navbar-link
-        = t('tags')
+        .navbar-dropdown
+          - year_months ||= IndexService.load.year_months
+          - year_months.each do |year_month, count|
+            - year = year_month.split('/').first
+            - month = year_month.split('/').last
+            a.navbar-item href="/#{year}/#{month}"
+              = "#{year}/#{month}"
+              = "(#{count})"
 
-      .navbar-dropdown
-        - tags ||= IndexService.load.tags
-        - tags.each do |tag, count|
-          a.navbar-item href="/tag/#{URI.escape(tag)}"
-            = tag
-            = "(#{count})"
+      .navbar-item.has-dropdown.is-hoverable
+        .navbar-link
+          = t('tags')
+
+        .navbar-dropdown
+          - tags ||= IndexService.load.tags
+          - tags.each do |tag, count|
+            a.navbar-item href="/tag/#{URI.escape(tag)}"
+              = tag
+              = "(#{count})"
 
     .navbar-end
       .navbar-item
@@ -43,3 +49,19 @@ sass:
   h1
     font-size: 1.5rem
     font-weight: bold
+    display: inline
+
+javascript:
+    document.addEventListener('DOMContentLoaded', () => {
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        if ($navbarBurgers.length > 0) {
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        }
+    });

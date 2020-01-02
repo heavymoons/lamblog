@@ -8,7 +8,7 @@ html
     title
       = setting('SITE_NAME')
 body
-  .container.is-fluid
+  .container.is-fluid.is-mobile
     #header
       == slim view_name("header")
     == slim view_name("components/custom_html"), locals: { name: 'content_top' }
